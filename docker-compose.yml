@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: http://localhost:3000
+    ports:
+      - "8080:80"
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+    volumes:
+      - ./backend/logs:/app/logs # Persist logs
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      # จาก Dockerfile
+      test: [ "CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/api/demo" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  app-network: # Network สำหรับสื่อสารระหว่าง services

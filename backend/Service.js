@@ -29,14 +29,21 @@ app.get('/api/demo', (req, res) => {
 
     res.json({
         git: {
-            title: 'Advanced Git Workflow',
-            detail: 'ใช้ branch protection บน GitHub, code review ใน PR, และ squash merge เพื่อ history สะอาด'
+            title: 'ชื่อ และ นามกุล ',
+            detail: 'นายภาคิน อินแถลง'
         },
         docker: {
-            title: 'Advanced Docker',
-            detail: 'ใช้ multi-stage build, healthcheck ใน Dockerfile, และ orchestration ด้วย Compose/Swarm'
+            title: ' รหัสนักสึกษา',
+            detail: '6604101365'
         }
     });
+});
+
+
+// Endpoint: Return User Details from Service.js
+const service = require('./Service');
+app.get('/api/user', (req, res) => {
+    res.json(service);
 });
 
 
